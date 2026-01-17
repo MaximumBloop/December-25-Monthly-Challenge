@@ -3,12 +3,17 @@ using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
-    public ItemData[] inventory = new ItemData[8];
+    public InventorySlot[] inventory = new InventorySlot[8];
     public Image[] inventoryUI = new Image[8];
+
+    public void Awake()
+    {
+        Populate();
+    }
 
     public void Populate()
     {
-        ItemData[] slotDatas = Inventory.Instance.Data;
+        InventorySlot[] slotDatas = Inventory.Instance.Data;
         for (int i = 0; i < slotDatas.Length; i++)
         {
             // clear existing data
@@ -19,9 +24,8 @@ public class InventoryUI : MonoBehaviour
             if (slotData == null) continue;
 
             // ...add new data
-            inventory[i] = slotData;
-            inventoryUI[i].sprite = inventory[i].sprite;
+            inventory[i] = new InventorySlot(slotData);
+            inventoryUI[i].sprite = inventory[i].data.sprite;
         }
-        Debug.Log(inventory);
     }
 }
